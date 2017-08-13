@@ -11,3 +11,9 @@ Just hit [click this link](https://derrado.github.io/fend-neighborhood/) and you
 
 ## License
 MIT
+
+
+# Used libraries
+Bootstrap
+Jquery
+Popper

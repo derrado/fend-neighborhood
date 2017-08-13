@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>FEND - Neighborhood Project</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="stylesheet" type="text/css" href="/css/app.css">
+    </head>
+<body>
+
+    <div class="container">
+        <div class="options-box">
+            Search: <input type="search" data-bind="textInput: filter" autocomplete="off">
+
+            <ul data-bind="foreach: visibleVenues">
+                <li>
+                    <!-- Influenced by http://knockoutjs.com/documentation/click-binding.html -->
+                    <span class="location_link" data-bind="text: $data.title, click: $parent.setFocusOnMarker"></span>
+                </li>
+            </ul>
+
+            <div>
+                <input id="reset-listing" type="button" value="Reset Listings">
+            </div>
+
+            <div>
+                <ul class="listing"></ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="map"></div>
+
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <!-- KnockoutJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=initMap"></script>
+
+    <!-- App -->
+    <script src="js/locations.js"></script>
+    <script src="js/app.js"></script>
+
+
+</body>
+</html>
