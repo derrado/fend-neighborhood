@@ -4,30 +4,69 @@
         <title>FEND - Neighborhood Project</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <link rel="stylesheet" type="text/css" href="/css/bulma.css">
+        <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="/css/app.css">
     </head>
 <body>
 
-    <nav>
-        <div class="sidenav">
-            <p>
-                <input type="search" data-bind="textInput: filter" placeholder="Filter locations..." autocomplete="off">
+    <div class="navwrapper">
+        <!-- Panel code from Bulma  -->
+        <!-- http://bulma.io/documentation/components/panel/ -->
+        <nav class="panel">
+            <p class="panel-heading">
+                FEND Neighborhood
             </p>
 
-            <!-- Influenced by http://knockoutjs.com/documentation/click-binding.html -->
-            <ul data-bind="foreach: visibleVenues">
-                <li>
-                    <a data-bind="text: $data.title, click: $parent.setFocusOnMarker"></a>
-                </li>
+            <div class="panel-block" style="border-bottom: 0px;">
+                <p class="control has-icons-left">
+                    <input class="input is-small" type="text" placeholder="type to filter locations" data-bind="textInput: filter">
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </p>
+            </div>
+
+            <div data-bind="foreach: visibleVenues">
+                <a class="panel-block" data-bind="click: $parent.setFocusOnMarker">
+                    <span class="panel-icon">
+                        <i class="fa fa-dot-circle-o"></i>
+                    </span>
+                    <span data-bind="text: $data.title"></span>
+                </a>
+            </div>
+
+            <div class="panel-block">
+                <button class="button is-primary is-outlined is-fullwidth" data-bind="click: resetMap">
+                reset filter and center map
+                </button>
+            </div>
+        </nav>
+
+        <div class="box">
+            <h5 class="title is-5">Used libraries</h5>
+            <ul>
+                <li>Bulma</li>
+                <li>FontAwesome</li>
+                <li>JQuery</li>
+                <li>KnockOutJS</li>
+                <li>Google Maps</li>
+                <li>FourSquare</li>
             </ul>
-
-            <p>
-                <button data-bind="click: resetMap">Reset</button>
-            </p>
+            <br>
+            <h5 class="title is-5">Used resources</h5>
+            <ul>
+                <li>Udacity</li>
+                <li>StackOverflow</li>
+                <li>Google Developers</li>
+                <li>all the little pens out there!</li>
+            </ul>
         </div>
-    </nav>
+    </div>
 
-    <span class="hamburger" onclick="toggleNav()"></span>
+    <span class="icon is-large burger" onclick="toggleNav()">
+        <i class="fa fa-bars"></i>
+    </span>
 
     <div id="map"></div>
 

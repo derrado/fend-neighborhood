@@ -1,15 +1,15 @@
-
-
 var map,
-    largeInfowindow,
+    infoWindow,
     bounds,
     vm;
 
-
 // Navigation toggler
 function toggleNav() {
-    $("nav").toggleClass("open");
-
+    // toggle the navigation menu
+    $(".navwrapper").toggleClass("open");
+    // toggle the bars
+    $(".burger > .fa").toggleClass("fa-bars");
+    $(".burger > .fa").toggleClass("fa-close");
 }
 
 function initMap() {
@@ -23,14 +23,19 @@ function initMap() {
     bounds = new google.maps.LatLngBounds();
 
     // Construct a new InfoWindow
-    largeInfowindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow();
 
     // Construct a new ViewModel
     vm = new ViewModel();
 
     // Bind the ViewModel to KnockOut
     ko.applyBindings(vm);
-};
+
+    // Listen for resize events
+    $(window).bind('resize', function () {
+        map.fitBounds(bounds);
+    });
+}
 
 // Define a Venue class - contains everything a Venue needs, including the marker
 // Influenced by http://knockoutjs.com/examples/collections.html and the other examples there
@@ -44,7 +49,7 @@ var Venue = function(data) {
         position: this.position(),
         title: this.title(),
         animation: google.maps.Animation.DROP,
-    })
+    });
 };
 
 var ViewModel = function() {
@@ -58,7 +63,7 @@ var ViewModel = function() {
     // Influenced by http://knockoutjs.com/examples/collections.html and the other examples there
     locations.forEach(function(location) {
         // Create new Venue
-        let venue = new Venue(location);
+        var venue = new Venue(location);
 
         // Push the Venue into the staticVenues container
         self.staticVenues.push(venue);
@@ -67,7 +72,7 @@ var ViewModel = function() {
         venue.marker.addListener('click', function() {
             // Set the focus on the marker
             self.setFocusOnMarker(venue);
-        })
+        });
     });
 
     // Toggles the visibility of the markers on the map
@@ -84,7 +89,7 @@ var ViewModel = function() {
             } else {
                 // Venue is not visible, no need to display the marker
                 venue.marker.setMap(null);
-            };
+            }
         });
 
         // Zoom and Center map to fit all Markers
@@ -95,7 +100,7 @@ var ViewModel = function() {
     // Note: We are also opening the info windows according to the rubric here
     self.setFocusOnMarker = function(venue) {
         // Set the clicked marker into a var for a little less typing
-        let mk = venue.marker;
+        var mk = venue.marker;
 
         // Center the map on the marker
         map.panTo(mk.getPosition());
@@ -104,36 +109,36 @@ var ViewModel = function() {
         mk.setAnimation(google.maps.Animation.BOUNCE);
 
         // Display the InfoWindow
-        self.displayInfoWindow(venue, largeInfowindow);
+        self.displayInfoWindow(venue);
 
         // Set a timeout to stop the marker after 750ms, which is roughly one full bounce animation
         setTimeout(function(){ mk.setAnimation(null); }, 750);
-    }
+    };
 
     // Display the InfoWindow
     // Mostly taken from google-docs and the udacity-course
-    self.displayInfoWindow = function(venue, infowindow) {
+    self.displayInfoWindow = function(venue) {
         // Set the clicked marker into a var for a little less typing
-        let mk = venue.marker;
+        var mk = venue.marker;
 
         // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != mk) {
-            infowindow.marker = mk;
+        if (infoWindow.marker != mk) {
+            infoWindow.marker = mk;
 
             // Set a placeholder while fetching the real content
-            infowindow.setContent('Fetching data, just a second...');
-            // Open the InfoWindow at the marker
-            infowindow.open(map, mk);
+            infoWindow.setContent('<span class="has-text-centered"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></span>');
+            // Open the infoWindow at the marker
+            infoWindow.open(map, mk);
 
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick', function() {
-                infowindow.marker = null;
+            // Make sure the marker property is cleared if the infoWindow is closed.
+            infoWindow.addListener('closeclick', function() {
+                infoWindow.marker = null;
             });
 
             // Fetch the content
-            getContentForInfoWindow(venue, infowindow)
+            getContentForInfoWindow(venue);
         }
-    }
+    };
 
     // Reset the map
     self.resetMap = function() {
@@ -142,18 +147,18 @@ var ViewModel = function() {
         // center the map again for safety reasons
         map.fitBounds(bounds);
         // close an open infowindow
-        largeInfowindow.close();
-    }
+        infoWindow.close();
+    };
 
     // Filter the visibleVenues according to the User-Input in the search box
     self.filterVenues = ko.computed(function() {
-        var filter = self.filter()
+        var filter = self.filter();
 
         // Empty the visible Venues
         self.visibleVenues.removeAll();
 
         // Filter user-input and put results into a new variable
-        let arr = self.staticVenues.filter(function(i) { return i.title().indexOf(filter) > -1; });
+        var arr = self.staticVenues.filter(function(i) { return i.title().indexOf(filter) > -1; });
 
         // Populate the visibleVenues again with the filtered results
         arr.forEach(function(a) {
@@ -167,12 +172,12 @@ var ViewModel = function() {
 
 
 // Pull the content for the InfoWindow from external resource
-function getContentForInfoWindow(venue, infowindow) {
+function getContentForInfoWindow(venue) {
     // Costruct the url for foursquare
-    let clientId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
-    let clientSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
-    let params = {client_id: clientId, client_secret: clientSecret, v: '20170813', m: 'foursquare'};
-    let url = 'https://api.foursquare.com/v2/venues/' + venue.fsId + '?' + $.param(params);
+    var clientId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
+    var clientSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
+    var params = {client_id: clientId, client_secret: clientSecret, v: '20170813', m: 'foursquare'};
+    var url = 'https://api.foursquare.com/v2/venues/' + venue.fsId + '?' + $.param(params);
 
     // Fetch the data from url
     $.ajax({
@@ -180,22 +185,33 @@ function getContentForInfoWindow(venue, infowindow) {
         dataType: 'json',
         success: function (data) {
             // Parse the data and set the result into the infowindow
-            infowindow.setContent(parseExternalContent(venue, data.response.venue));
+            infoWindow.setContent(parseExternalContent(venue, data.response.venue));
         },
         error: function (xhr) {
-            // There was an error, so we will display an error message in the infowindow
-            infowindow.setContent('There was an error with your request.');
+            // There was an error, so we will display an error message in the infoWindow
+            infoWindow.setContent(parseExternalError(xhr));
         }
     });
 }
 
-// Parse the submitted data into a nice format for the infowindow
+// Parse the submitted data for the infowindow
 function parseExternalContent(venue, data) {
-    let ret = '';
-    ret += '<h1>' + venue.title() + '</h1>';
-    ret += '<p><small>Showing address data from FourSquare</small></p><hr>';
+    var ret = '';
+    ret += '<p class="is-size-3 is-size-5-mobile">' + venue.title() + '</p>';
+    ret += '<p class="is-size-7">Showing address data from FourSquare:</p><br>';
     data.location.formattedAddress.forEach(function(entry) {
         ret += entry + '<br>';
     });
     return ret;
 }
+
+// Parse the submitted error-data for the infowindow
+function parseExternalError(data) {
+    var ret = '<div>';
+    ret += '<p class="is-size-3 is-size-5-mobile has-text-danger">' + data.statusText + '</p>';
+    ret += '<p class="is-size-6">We could not fetch the data for this venue!</p>';
+    ret += '<p>Message: ' +  data.responseJSON.meta.errorDetail + '</p>';
+    ret += '</div>';
+    return ret;
+}
+

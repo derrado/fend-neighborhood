@@ -1,63 +1,48 @@
       html,
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Segoe UI", "Roboto", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         height: 100%;
         margin: 0;
         padding: 0;
       }
 
-
-     /* The side navigation menu */
-    nav {
-        height: 0%; /* 100% Full-height */
-        width: 250px; /* 0 width - change this with JavaScript */
-        max-width: 250px;
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Stay on top */
+     /* Navigation wrapper */
+    .navwrapper {
         top: 0;
-        visibility: hidden;
-        padding-top: 60px; /* Place content 60px from the top */
-        background-color:  #f7f7f7;
-        overflow-x: hidden; /* Disable horizontal scroll */
-        transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-        overflow: hidden;
-    }
-
-    nav.open {
+        left: 0;
+        height: 0%;
+        width: 320px;
+        max-width: 320px;
+        position: fixed;
         z-index: 1;
-        visibility: visible;
+        visibility: hidden;
+        background-color: #fff;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 65px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /*Navigation visibility class */
+    .navwrapper.open {
         height: 100%;
+        visibility: visible;
     }
 
-    .sidenav {
-        padding: 12px;
+    /* menu toggler */
+    .burger {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
     }
 
-    .sidenav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0px;
-    }
-
-    .sidenav li {
-        margin-top: 0;
-        line-height: 1.5em;
-        font-size: 1.125rem;
-        margin-bottom: 1rem;
-    }
-
-    .sidenav li a {
-        color: #4483d9;
-        font-weight: 400;
-        text-decoration: none;
-    }
-
-    .sidenav li a:hover {
-        text-decoration: underline;
+    .burger:hover {
         cursor: pointer;
     }
 
-
+    /* google map container */
     #map {
         bottom:0px;
         height: 100%;
@@ -66,29 +51,4 @@
         right: 0px;
     }
 
-    .hamburger {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        display: inline-block;
-        width: 1.25em;
-        height: 0.8em;
-        margin-right: 0.3em;
-        border-top: 0.2em solid #000;
-        border-bottom: 0.2em solid #000;
-        z-index: 2; /* Stay on top */
-    }
 
-    .hamburger:hover {
-        cursor: pointer;
-    }
-
-    .hamburger:before {
-        content: "";
-        position: absolute;
-        top: 0.3em;
-        left: 0px;
-        width: 100%;
-        border-top: 0.2em solid #000;
-        z-index: 2; /* Stay on top */
-    }
