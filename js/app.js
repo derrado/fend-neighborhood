@@ -12,6 +12,8 @@ function toggleNav() {
     $(".burger > .fa").toggleClass("fa-close");
 }
 
+// Loads the map and binds the ViewModel to KO
+// Function gets called after the JS is loaded
 function initMap() {
     // Define the map options (center on the first location)
     var mapOptions = { center: locations[0].position, zoom: 13, mapTypeControl: false };
@@ -52,6 +54,7 @@ var Venue = function(data) {
     });
 };
 
+// The ViewModel - pretty basic KnockOut stuff
 var ViewModel = function() {
     var self = this;
 
@@ -173,10 +176,10 @@ var ViewModel = function() {
 
 // Pull the content for the InfoWindow from external resource
 function getContentForInfoWindow(venue) {
-    // Costruct the url for foursquare
-    var clientId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
-    var clientSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
-    var params = {client_id: clientId, client_secret: clientSecret, v: '20170813', m: 'foursquare'};
+    // Construct the url for foursquare
+    var cId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
+    var cSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
+    var params = {client_id: cId, client_secret: cSecret, v: '20170813', m: 'foursquare'};
     var url = 'https://api.foursquare.com/v2/venues/' + venue.fsId + '?' + $.param(params);
 
     // Fetch the data from url
