@@ -8,44 +8,38 @@
     </head>
 <body>
 
-    <div class="container">
-        <div class="options-box">
-            Search: <input type="search" data-bind="textInput: filter" autocomplete="off">
+    <nav>
+        <div class="sidenav">
+            <p>
+                <input type="search" data-bind="textInput: filter" placeholder="Filter locations..." autocomplete="off">
+            </p>
 
+            <!-- Influenced by http://knockoutjs.com/documentation/click-binding.html -->
             <ul data-bind="foreach: visibleVenues">
                 <li>
-                    <!-- Influenced by http://knockoutjs.com/documentation/click-binding.html -->
-                    <span class="location_link" data-bind="text: $data.title, click: $parent.setFocusOnMarker"></span>
+                    <a data-bind="text: $data.title, click: $parent.setFocusOnMarker"></a>
                 </li>
             </ul>
 
-            <div>
-                <input id="reset-listing" type="button" value="Reset Listings">
-            </div>
-
-            <div>
-                <ul class="listing"></ul>
-            </div>
+            <p>
+                <button data-bind="click: resetMap">Reset</button>
+            </p>
         </div>
-    </div>
+    </nav>
 
-
+    <span class="hamburger" onclick="toggleNav()"></span>
 
     <div id="map"></div>
-
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <!-- KnockoutJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-
     <!-- Google Maps API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=initMap"></script>
 
     <!-- App -->
     <script src="js/locations.js"></script>
     <script src="js/app.js"></script>
-
-
 </body>
 </html>

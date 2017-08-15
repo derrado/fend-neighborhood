@@ -1,11 +1,16 @@
-function toggleMenu(x) {
-    x.classList.toggle("change");
-}
+
 
 var map,
     largeInfowindow,
     bounds,
     vm;
+
+
+// Navigation toggler
+function toggleNav() {
+    $("nav").toggleClass("open");
+
+}
 
 function initMap() {
     // Define the map options (center on the first location)
@@ -126,8 +131,18 @@ var ViewModel = function() {
             });
 
             // Fetch the content
-            getContentForInfoWindow(venue, largeInfowindow)
+            getContentForInfoWindow(venue, infowindow)
         }
+    }
+
+    // Reset the map
+    self.resetMap = function() {
+        // Clear the user input in search
+        self.filter('');
+        // center the map again for safety reasons
+        map.fitBounds(bounds);
+        // close an open infowindow
+        largeInfowindow.close();
     }
 
     // Filter the visibleVenues according to the User-Input in the search box
@@ -153,18 +168,22 @@ var ViewModel = function() {
 
 // Pull the content for the InfoWindow from external resource
 function getContentForInfoWindow(venue, infowindow) {
-    var clientId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
-    var clientSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
-    var params = {client_id: clientId, client_secret: clientSecret, v: '20170813', m: 'foursquare'};
-    var url = 'https://api.foursquare.com/v2/venues/' + venue.fsId + '?' + $.param(params);
+    // Costruct the url for foursquare
+    let clientId = "C2Y3OJMWBBAPD45GP4SHCMXR3VARCWC4TYPOFAFX0SZL1TSQ";
+    let clientSecret = "QW3YUXFTRNLFBUG5VS50R1S3ERXLGEKPLJ3IJ2CEGR3RFU41";
+    let params = {client_id: clientId, client_secret: clientSecret, v: '20170813', m: 'foursquare'};
+    let url = 'https://api.foursquare.com/v2/venues/' + venue.fsId + '?' + $.param(params);
 
+    // Fetch the data from url
     $.ajax({
         url: url,
         dataType: 'json',
         success: function (data) {
-            parseExternalContent(venue, data.response.venue);
+            // Parse the data and set the result into the infowindow
+            infowindow.setContent(parseExternalContent(venue, data.response.venue));
         },
         error: function (xhr) {
+            // There was an error, so we will display an error message in the infowindow
             infowindow.setContent('There was an error with your request.');
         }
     });
@@ -178,5 +197,5 @@ function parseExternalContent(venue, data) {
     data.location.formattedAddress.forEach(function(entry) {
         ret += entry + '<br>';
     });
-    largeInfowindow.setContent(ret);
+    return ret;
 }
