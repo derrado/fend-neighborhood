@@ -3,15 +3,6 @@ var map,
     bounds,
     vm;
 
-// Navigation toggler
-function toggleNav() {
-    // toggle the navigation menu
-    $(".navwrapper").toggleClass("open");
-    // toggle the bars
-    $(".burger > .fa").toggleClass("fa-bars");
-    $(".burger > .fa").toggleClass("fa-close");
-}
-
 // Loads the map and binds the ViewModel to KO
 // Function gets called after the JS is loaded
 function initMap() {
@@ -61,6 +52,7 @@ var ViewModel = function() {
     self.staticVenues = [];
     self.visibleVenues = ko.observableArray([]);
     self.filter = ko.observable('');
+    self.menuOpen = ko.observable(false);
 
     // Iterate once through all locations and create a new Venue out of each
     // Influenced by http://knockoutjs.com/examples/collections.html and the other examples there
@@ -85,12 +77,12 @@ var ViewModel = function() {
         self.staticVenues.forEach(function(venue) {
             // Match the visible/filtered Venues against the static Venues
             if (self.visibleVenues().indexOf(venue) !== -1) {
-                // The venue is visible, display the marker on the map
+                // The venue is visible, create the marker on the map
                 venue.marker.setMap(map);
                 // Extend the boundariy
                 bounds.extend(venue.marker.position);
             } else {
-                // Venue is not visible, no need to display the marker
+                // Venue is not visible, loose the reference to the marker on the map
                 venue.marker.setMap(null);
             }
         });
@@ -152,6 +144,17 @@ var ViewModel = function() {
         // close an open infowindow
         infoWindow.close();
     };
+
+    // Clickhandler for the menu-icon
+    self.toggleMenu = function() {
+        // invert the observable menuOpen
+        self.menuOpen(!self.menuOpen());
+    }
+
+    // Returns the css for the menu-icon
+    self.burgerCSS = ko.computed(function() {
+        return self.menuOpen() ? 'fa fa-close': 'fa fa-bars';
+    });
 
     // Filter the visibleVenues according to the User-Input in the search box
     self.filterVenues = ko.computed(function() {

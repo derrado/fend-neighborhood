@@ -10,7 +10,7 @@
     </head>
 <body>
 
-    <div class="navwrapper">
+    <div class="navwrapper" data-bind="css: {open: menuOpen()}">
         <!-- Panel code from Bulma  -->
         <!-- http://bulma.io/documentation/components/panel/ -->
         <nav class="panel">
@@ -64,8 +64,8 @@
         </div>
     </div>
 
-    <span class="icon is-large burger" onclick="toggleNav()">
-        <i class="fa fa-bars"></i>
+    <span class="icon is-large burger" data-bind="click: toggleMenu">
+        <i data-bind="css: burgerCSS"></i>
     </span>
 
     <main id="map"></main>
