@@ -231,7 +231,3 @@ function parseExternalError(data) {
     ret += '</div>';
     return ret;
 }
-
-function loadMapFailed() {
-    alert('Google Maps API could not be loaded.');
-}

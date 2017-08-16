@@ -70,17 +70,56 @@
 
     <main id="map"></main>
 
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <article class="message is-danger">
+                <div class="message-body">
+                    <p clasS="is-size-3 is-size-5-mobile">
+                        <span class="icon is-medium"><i class="fa fa-warning"></i></span>
+                        Failed loading required Files!
+                    </p>
+                    <p>
+                        Sorry, something went wrong loading the required <strong id="errorFile"></strong> JS file.<br>
+                        Please check your internet connection and the console for further investigation.
+                    </p>
+                    <p>
+                        <br>If you're feeling lucky, <strong><a href="/">just try again</a></strong>
+                    </p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script>
+        // Toggle the main error Modal, get's fired if any of the needed Script files couldn't be loaded
+        // Inline here, we do not know which JS failes to load
+        var loadError = false;
+
+        // DIsplays the errorModal
+        function showErrorModal(errorFile) {
+            loadError = true;
+            document.getElementById('errorFile').innerHTML = errorFile;
+            document.getElementsByClassName('modal')[0].classList.add("is-active");
+            console.log(errorFile);
+        }
+
+        // Check for loadError, else start the app after maps has loaded successfully
+        function startApp() {
+            if (loadError) { return; }
+            initMap();
+        }
+    </script>
+
     <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous" onerror="showErrorModal('JQuery')"></script>
     <!-- KnockoutJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js" onerror="showErrorModal('KnockOut')"></script>
     <!-- App -->
-    <script src="js/locations.js"></script>
-    <script src="js/app.js"></script>
-
+    <script src="js/locations.js" onerror="showErrorModal('Locations')"></script>
+    <script src="js/app.js" onerror="showErrorModal('App')"></script>
     <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=initMap" onerror="loadMapFailed()"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=startApp" onerror="showErrorModal('Google Maps')"></script>
 
 </body>
 </html>
