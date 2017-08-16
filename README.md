@@ -9,9 +9,9 @@ You can clone the repository and run the index.html file or you can just [click 
 MIT
 
 ## Used libraries
-Bulma
-FontAwesome
-Jquery
-KnockOut JS
-Google Maps API
-Foursquare API
+* Bulma
+* FontAwesome
+* Jquery
+* KnockOut JS
+* Google Maps API
+* Foursquare API
