@@ -149,7 +149,7 @@ var ViewModel = function() {
     self.toggleMenu = function() {
         // invert the observable menuOpen
         self.menuOpen(!self.menuOpen());
-    }
+    };
 
     // Returns the css for the menu-icon
     self.burgerCSS = ko.computed(function() {
@@ -218,7 +218,11 @@ function parseExternalError(data) {
     var hasDetails = true;
 
     // Check if error-data has details
-    try {data.responseJSON.meta.errorDetail} catch(e) {hasDetails = false;}
+    try {
+        var x = data.responseJSON.meta.errorDetail.length;
+    } catch(e) {
+        hasDetails = false;
+    }
 
     ret += '<p class="is-size-3 is-size-5-mobile has-text-danger">' + data.statusText + '</p>';
     ret += '<p class="is-size-6">We could not fetch the data for this venue!</p>';
@@ -226,7 +230,7 @@ function parseExternalError(data) {
     // Show details, if there are any
     if (hasDetails) {
         ret += '<p><br>Message from server: <br>' +  data.responseJSON.meta.errorDetail + '</p>';
-    };
+    }
 
     ret += '</div>';
     return ret;
