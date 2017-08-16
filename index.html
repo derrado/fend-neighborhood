@@ -3,7 +3,7 @@
     <head>
         <title>FEND - Neighborhood Project</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/bulma.css">
         <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/app.css">
@@ -18,7 +18,7 @@
                 FEND Neighborhood
             </p>
 
-            <div class="panel-block" style="border-bottom: 0px;">
+            <div class="panel-block no-bottom-border-fix">
                 <p class="control has-icons-left">
                     <input class="input is-small" type="text" placeholder="type to filter locations" data-bind="textInput: filter">
                     <span class="icon is-small is-left">
@@ -68,17 +68,19 @@
         <i class="fa fa-bars"></i>
     </span>
 
-    <div id="map"></div>
+    <main id="map"></main>
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <!-- KnockoutJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=initMap"></script>
 
     <!-- App -->
     <script src="js/locations.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcyyezL28heEtChBNmuv-YpvdrrWqbO4o&v=3&callback=initMap" onerror="loadMapFailed()"></script>
+
 </body>
 </html>

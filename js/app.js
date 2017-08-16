@@ -161,6 +161,7 @@ var ViewModel = function() {
         self.visibleVenues.removeAll();
 
         // Filter user-input and put results into a new variable
+        // Note: Case-Sensitive filtering is on purpose.
         var arr = self.staticVenues.filter(function(i) { return i.title().indexOf(filter) > -1; });
 
         // Populate the visibleVenues again with the filtered results
@@ -211,10 +212,23 @@ function parseExternalContent(venue, data) {
 // Parse the submitted error-data for the infowindow
 function parseExternalError(data) {
     var ret = '<div>';
+    var hasDetails = true;
+
+    // Check if error-data has details
+    try {data.responseJSON.meta.errorDetail} catch(e) {hasDetails = false;}
+
     ret += '<p class="is-size-3 is-size-5-mobile has-text-danger">' + data.statusText + '</p>';
     ret += '<p class="is-size-6">We could not fetch the data for this venue!</p>';
-    ret += '<p>Message: ' +  data.responseJSON.meta.errorDetail + '</p>';
+
+    // Show details, if there are any
+    if (hasDetails) {
+        ret += '<p><br>Message from server: <br>' +  data.responseJSON.meta.errorDetail + '</p>';
+    };
+
     ret += '</div>';
     return ret;
 }
 
+function loadMapFailed() {
+    alert('Google Maps API could not be loaded.');
+}

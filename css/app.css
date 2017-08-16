@@ -51,4 +51,6 @@
         right: 0px;
     }
 
-
+    .no-bottom-border-fix {
+        border-bottom: 0px;
+    }

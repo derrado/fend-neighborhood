@@ -3,8 +3,7 @@
 The code should be well commented and self-explaining.
 
 ## How to run
-### Run from github-pages
-Clone the repository or just [click this link](https://derrado.github.io/fend-neighborhood/) and you are set to go
+You can clone the repository and run the index.html file or you can just [click this link](https://derrado.github.io/fend-neighborhood/).
 
 ## License
 MIT
